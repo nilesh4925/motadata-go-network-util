@@ -259,8 +259,8 @@ func (networkClient *NetworkClient) IsPortReachable(portType string) MotadataMap
 		result[sdkconstant.StatusCode] = sdkconstant.StatusCodeReachable
 	}
 
-	defer func(ln net.Listener) {
-		err := ln.Close()
+	defer func(listen net.Listener) {
+		err := listen.Close()
 		if err != nil {
 
 		}
