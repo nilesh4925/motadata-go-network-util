@@ -249,7 +249,7 @@ func (networkClient *NetworkClient) IsPortReachable(portType string) MotadataMap
 
 	result := make(MotadataMap)
 
-	listen, err := net.Listen(portType, string(networkClient.host[0])+":"+strconv.Itoa(int(networkClient.port)))
+	conn, err := net.DialTimeout(portType, net.JoinHostPort(string(networkClient.host[0]), strconv.Itoa(int(networkClient.port))), 10*time.Second)
 
 	if err != nil {
 
@@ -259,13 +259,14 @@ func (networkClient *NetworkClient) IsPortReachable(portType string) MotadataMap
 		result[sdkconstant.StatusCode] = sdkconstant.StatusCodeReachable
 	}
 
-	defer func(listen net.Listener) {
-		if listen != nil {
-			err := listen.Close()
+	if conn != nil {
+		defer func(conn net.Conn) {
+			err := conn.Close()
 			if err != nil {
+
 			}
-		}
-	}(listen)
+		}(conn)
+	}
 
 	return result
 }
