@@ -216,7 +216,7 @@ func (networkClient *NetworkClient) IsHostReachable() MotadataMap {
 
 	stdErr, err := cmd.CombinedOutput()
 
-	if err == nil {
+	if err != nil {
 
 		result[sdkconstant.ErrorCode] = "Failed To Get Ping Result"
 
