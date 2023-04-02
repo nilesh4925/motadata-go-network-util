@@ -260,9 +260,10 @@ func (networkClient *NetworkClient) IsPortReachable(portType string) MotadataMap
 	}
 
 	defer func(listen net.Listener) {
-		err := listen.Close()
-		if err != nil {
-
+		if listen != nil {
+			err := listen.Close()
+			if err != nil {
+			}
 		}
 	}(listen)
 
